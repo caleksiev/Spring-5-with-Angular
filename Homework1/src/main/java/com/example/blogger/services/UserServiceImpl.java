@@ -8,7 +8,7 @@ import com.example.blogger.model.UserPrincipal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
+import javax.naming.NoPermissionException;
 import java.util.List;
 
 
@@ -24,7 +24,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(String userId, UserPrincipal principal) {
+    public User findById(String userId, UserPrincipal principal) throws NoPermissionException {
+        if (!isOwner(userId,principal)) {
+            throw new NoPermissionException("The user can see and change only his own profile.");
+        }
         return userRepository.findById(userId).orElseThrow(() -> new NonexisitngEntityException(
                 String.format("User with ID='%s' does not exist.", userId)));
     }
@@ -39,7 +42,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user,UserPrincipal principal) {
+    public User update(User user, UserPrincipal principal) throws NoPermissionException {
+        if (!isOwner(user.getId(),principal)) {
+            throw new NoPermissionException("The user can see and change only his own profile.");
+        }
         userRepository.findById(user.getId())
                 .orElseThrow(() -> new NonexisitngEntityException(String.format("User with ID='%s' does not exist.", user.getId())));
 
@@ -47,11 +53,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User remove(String userId,UserPrincipal principal) {
+    public User remove(String userId, UserPrincipal principal) throws NoPermissionException {
+
+        if (!isOwner(userId,principal)) {
+            throw new NoPermissionException("The user can see and change only his own profile.");
+        }
         User oldUser = userRepository.findById(userId)
                 .orElseThrow(() -> new NonexisitngEntityException(String.format("User with ID='%s' does not exist.", userId)));
 
         userRepository.deleteById(userId);
         return oldUser;
+    }
+
+   private boolean isOwner(String userId, UserPrincipal userPrincipal)  {
+        String userPrincipalId = userRepository.findByEmail(userPrincipal.getUser().getEmail()).get().getId();
+        return userPrincipalId.equals(userId);
     }
 }

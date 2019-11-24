@@ -1,9 +1,9 @@
 package com.example.blogger.web;
 
 import com.example.blogger.exception.InvalidEntityException;
-import com.example.blogger.model.User;
+import com.example.blogger.model.Post;
 import com.example.blogger.model.UserPrincipal;
-import com.example.blogger.services.UserServiceImpl;
+import com.example.blogger.services.PostServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,50 +16,50 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
-public class UserController {
-
+@RequestMapping("/api/posts")
+public class PostController {
     @Autowired
-    private UserServiceImpl userService;
+    private PostServiceImpl postService;
 
     @GetMapping
-    public List<User> getUsers() {
-        return userService.findAll();
+    public List<Post> getPosts() {
+        return postService.findAll();
     }
 
     @GetMapping("{id}")
-    public User getUserById(@PathVariable("id") String userId, @AuthenticationPrincipal UserPrincipal userPrincipal) throws NoPermissionException {
-        return userService.findById(userId, userPrincipal);
+    public Post getPostById(@PathVariable("id") String postId) {
+        return postService.findById(postId);
     }
 
     @PostMapping
-    public ResponseEntity<User> addUser(@Valid @RequestBody User user, BindingResult bindingResult) {
+    public ResponseEntity<Post> addPost(@Valid @RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
+                                        BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throwError(bindingResult);
         }
-        User addedUser = userService.add(user);
+        Post addedPost = postService.add(post, userPrincipal);
         return ResponseEntity.created(
-                ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(addedUser.getId()))
-                .body(addedUser);
+                ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(addedPost.getId()))
+                .body(addedPost);
     }
 
     @PutMapping("{id}")
-    public User updateUser(@PathVariable String id, @Valid @RequestBody User user, @AuthenticationPrincipal UserPrincipal userPrincipal,
+    public Post updatePost(@PathVariable String id, @Valid @RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
                            BindingResult bindingResult) throws NoPermissionException {
         if (bindingResult.hasFieldErrors()) {
             throwError(bindingResult);
         }
 
-        if (!id.equals(user.getId())) {
+        if (!id.equals(post.getId())) {
             throw new InvalidEntityException(
-                    String.format("Entity ID='%s' is different from URL resource ID='%s'", user.getId(), id));
+                    String.format("Entity ID='%s' is different from URL resource ID='%s'", post.getId(), id));
         }
-        return userService.update(user, userPrincipal);
+        return postService.update(post, userPrincipal);
     }
 
     @DeleteMapping("{id}")
-    public User removeUser(@PathVariable String id, @AuthenticationPrincipal UserPrincipal userPrincipal) throws NoPermissionException {
-        return userService.remove(id, userPrincipal);
+    public Post removePost(@PathVariable String id, @AuthenticationPrincipal UserPrincipal userPrincipal) throws NoPermissionException {
+        return postService.remove(id, userPrincipal);
     }
 
     private void throwError(BindingResult bindingResult) {
