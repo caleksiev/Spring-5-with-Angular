@@ -32,7 +32,7 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<Post> addPost(@Valid @RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
+    public ResponseEntity<Post> addPost( @RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
                                         BindingResult bindingResult) {
         if (bindingResult.hasFieldErrors()) {
             throwError(bindingResult);
@@ -44,7 +44,7 @@ public class PostController {
     }
 
     @PutMapping("{id}")
-    public Post updatePost(@PathVariable String id, @Valid @RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
+    public Post updatePost(@PathVariable String id,@RequestBody Post post, @AuthenticationPrincipal UserPrincipal userPrincipal,
                            BindingResult bindingResult) throws NoPermissionException {
         if (bindingResult.hasFieldErrors()) {
             throwError(bindingResult);
