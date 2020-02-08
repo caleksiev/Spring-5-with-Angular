@@ -12,7 +12,7 @@ import javax.persistence.ManyToOne;
 @Setter
 @Getter
 @NoArgsConstructor
-public class TeamEvent extends Event{
-    @ManyToOne(cascade = CascadeType.PERSIST)
+public class TeamEvent extends Event {
+    @ManyToOne(cascade = {CascadeType.PERSIST})
     private Team team;
 }

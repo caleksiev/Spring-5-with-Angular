@@ -31,4 +31,9 @@ public class Dev {
     public Dev(String fistName,String lastName,String username, String password) {
         setUser(new User(fistName,lastName,username, password, Role.DEV));
     }
+
+    public Dev(User user) {
+        user.setRole(Role.DEV.getStringRole());
+        setUser(user);
+    }
 }

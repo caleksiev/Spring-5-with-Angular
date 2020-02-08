@@ -25,11 +25,11 @@ abstract public class Event {
     private String title;
     @Column
     private String description;
-    @Column(name="valueFrom")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @Column(name = "valueFrom")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime fromDate;
-    @Column(name="valueTo")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    @Column(name = "valueTo")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime toDate;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

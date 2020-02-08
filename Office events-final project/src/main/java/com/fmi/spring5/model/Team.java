@@ -24,6 +24,6 @@ public class Team {
     @NotNull
     private String name;
 
-    //@ManyToOne(cascade = CascadeType.PERSIST)
-    //private Manager manager;
+    @ManyToOne(cascade = {CascadeType.PERSIST})
+    private Manager manager;
 }

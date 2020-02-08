@@ -27,5 +27,10 @@ public class Manager {
     public Manager(String firsName, String lastName,String username, String password) {
         setUser(new User(firsName,lastName,username, password, Role.MANAGER));
     }
+
+    public Manager(User user) {
+        user.setRole(Role.MANAGER.getStringRole());
+        setUser(user);
+    }
 }
 
