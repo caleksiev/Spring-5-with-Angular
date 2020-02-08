@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 @NoArgsConstructor
-public class Event {
+abstract public class Event {
     @Id
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
@@ -25,12 +25,12 @@ public class Event {
     private String title;
     @Column
     private String description;
-    @Column
+    @Column(name="valueFrom")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime from;
-    @Column
+    private LocalDateTime fromDate;
+    @Column(name="valueTo")
     @JsonFormat(pattern="yyyy-MM-dd HH:mm")
-    private LocalDateTime to;
+    private LocalDateTime toDate;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @NotNull

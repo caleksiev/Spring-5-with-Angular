@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fmi.spring5.utils.Role;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,13 +42,13 @@ public class User {
 
     @Column
     @NotNull
-    private Role role = Role.DEV;
+    private String role = Role.DEV.getStringRole();
 
     public User(String fistName, String lastName, String username, String password, Role role) {
         setFirstName(fistName);
         setLastName(lastName);
         setUsername(username);
-        setPassword(password);
-        setRole(role);
+        setPassword(new BCryptPasswordEncoder(10).encode(password));
+        setRole(role.getStringRole());
     }
 }

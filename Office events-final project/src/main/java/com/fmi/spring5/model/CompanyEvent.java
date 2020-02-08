@@ -10,5 +10,5 @@ import javax.persistence.Entity;
 @Setter
 @Getter
 @NoArgsConstructor
-public class CompanyEvent {
+public class CompanyEvent extends Event {
 }
