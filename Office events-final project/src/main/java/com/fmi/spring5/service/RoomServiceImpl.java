@@ -52,10 +52,12 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room updateRoom(Room room) throws EntityAlreadyExistsException {
-        Room foundRoom = roomRepository.findByRoomName(room.getRoomName())
-                .orElseThrow(() -> new EntityAlreadyExistsException(String.format("There is already a room with name: '%s'.", room.getRoomName())));
+        Optional<Room> foundRoom = roomRepository.findByRoomName(room.getRoomName());
 
-        room.setId(foundRoom.getId());
+        if (foundRoom.isPresent() && !foundRoom.get().getId().equals(room.getId())) {
+            throw new EntityAlreadyExistsException(String.format("There is already a room with name: '%s'.", room.getRoomName()));
+        }
+
         return roomRepository.save(room);
     }
 

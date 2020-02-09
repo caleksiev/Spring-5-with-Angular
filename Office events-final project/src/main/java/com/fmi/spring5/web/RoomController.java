@@ -37,7 +37,7 @@ public class RoomController {
 
     @PostMapping
     @PostAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) throws EntityAlreadyExistsException {
+    public ResponseEntity<Room> createRoom( @RequestBody Room room) throws EntityAlreadyExistsException {
         Room addedRoom = roomService.addRoom(room);
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(addedRoom.getId()))
@@ -46,7 +46,7 @@ public class RoomController {
 
     @PutMapping
     @PostAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room room) throws EntityAlreadyExistsException {
+    public ResponseEntity<Room> updateRoom( @RequestBody Room room) throws EntityAlreadyExistsException {
         return ResponseEntity.ok().body(roomService.updateRoom(room));
     }
 

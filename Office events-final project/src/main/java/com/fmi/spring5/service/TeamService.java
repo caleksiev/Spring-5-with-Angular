@@ -3,6 +3,7 @@ package com.fmi.spring5.service;
 import com.fmi.spring5.exceptions.EntityAlreadyExistsException;
 import com.fmi.spring5.exceptions.InvalidArgumentException;
 import com.fmi.spring5.exceptions.NoSuchEntityException;
+import com.fmi.spring5.model.Dev;
 import com.fmi.spring5.model.Manager;
 import com.fmi.spring5.model.Team;
 
@@ -26,5 +27,4 @@ public interface TeamService {
     void addDevToTeam(String devName, String teamName) throws NoSuchEntityException, NoPermissionException, EntityAlreadyExistsException;
 
     void removeDevFromTeam(String devName, String teamName) throws NoSuchEntityException, NoPermissionException;
-
 }

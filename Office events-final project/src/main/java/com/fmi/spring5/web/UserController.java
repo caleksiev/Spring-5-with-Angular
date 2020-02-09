@@ -5,11 +5,8 @@ import com.fmi.spring5.exceptions.InvalidArgumentException;
 import com.fmi.spring5.exceptions.NoSuchEntityException;
 import com.fmi.spring5.model.Dev;
 import com.fmi.spring5.model.User;
-import com.fmi.spring5.service.UserService;
 import com.fmi.spring5.service.UserServiceImpl;
-import org.graalvm.compiler.lir.LIRInstruction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -43,11 +40,12 @@ public class UserController {
 
     @GetMapping("/users/me")
     ResponseEntity<User> getUserRole(@AuthenticationPrincipal Principal user) throws NoSuchEntityException {
+        System.out.println("");
         return ResponseEntity.ok().body(this.userService.getUser(user.getName()));
     }
 
     @PutMapping("/users/me")
-    public ResponseEntity<User> updateMe(@Valid @RequestBody User user, @AuthenticationPrincipal Principal principal) throws NoSuchEntityException {
+    public ResponseEntity<User> updateMe(@RequestBody User user, @AuthenticationPrincipal Principal principal) throws NoSuchEntityException {
         if (!user.getUsername().equals(principal.getName())) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
@@ -55,9 +53,13 @@ public class UserController {
     }
 
     @GetMapping("/users")
-    @PostAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Iterable<User>> getAllUser() {
         return ResponseEntity.ok(userService.getAllUsers());
+    }
+
+    @GetMapping("/devs")
+    public ResponseEntity<Iterable<Dev>> getAllDev() {
+        return ResponseEntity.ok(userService.getAllDev());
     }
 
 

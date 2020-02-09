@@ -19,4 +19,8 @@ public interface UserService {
     void changeUserRole(String username, String newRole) throws InvalidArgumentException, NoSuchEntityException;
 
     User update(User user ) throws NoSuchEntityException;
+
+    Iterable<Dev> getAllDev();
+
 }
+

@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -28,12 +29,15 @@ public class Dev {
     @ManyToOne(cascade = CascadeType.PERSIST)
     private Team team;
 
-    public Dev(String fistName,String lastName,String username, String password) {
-        setUser(new User(fistName,lastName,username, password, Role.DEV));
+    public Dev(String fistName, String lastName, String username, String password) {
+        setUser(new User(fistName, lastName, username, password, Role.DEV));
     }
 
-    public Dev(User user) {
+    public Dev(User user, boolean crypt) {
         user.setRole(Role.DEV.getStringRole());
+        if (crypt) {
+            user.setPassword(new BCryptPasswordEncoder(10).encode(user.getPassword()));
+        }
         setUser(user);
     }
 }

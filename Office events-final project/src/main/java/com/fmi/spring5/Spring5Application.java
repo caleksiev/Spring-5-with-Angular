@@ -19,8 +19,7 @@ public class Spring5Application {
     @Bean
     public CommandLineRunner run(AdminRepository adminRepository) {
         return (args) -> {
-            Admin user = new Admin("Admin","Admin","admin", new BCryptPasswordEncoder(10).
-                    encode("1234"));
+            Admin user = new Admin("Admin","Admin","admin","admin");
 
             if (adminRepository.count() == 0) {
                 adminRepository.save(user);

@@ -22,7 +22,6 @@ public class TeamController {
     TeamServiceImp teamService;
 
     @GetMapping
-    @PostAuthorize("hasRole('ADMIN')")
     ResponseEntity<Iterable<Team>> getAllTeams() {
         return ResponseEntity.ok(teamService.getAllTeams());
     }
@@ -74,7 +73,7 @@ public class TeamController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/manager/")
+    @DeleteMapping("/manager")
     @PostAuthorize("hasRole('ADMIN')")
     public ResponseEntity deleteTeamManager(@RequestParam("team") String teamName) throws NoSuchEntityException {
 

@@ -7,8 +7,6 @@ import com.fmi.spring5.model.CompanyEvent;
 import com.fmi.spring5.model.Room;
 import com.fmi.spring5.model.TeamEvent;
 import com.fmi.spring5.service.EventServiceImpl;
-import com.fmi.spring5.service.TeamServiceImp;
-import jdk.jfr.internal.Repository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
