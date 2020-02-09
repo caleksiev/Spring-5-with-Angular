@@ -4,6 +4,8 @@ import com.fmi.spring5.exceptions.EntityAlreadyExistsException;
 import com.fmi.spring5.model.Room;
 import com.fmi.spring5.utils.FromToSlot;
 
+import java.math.RoundingMode;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public interface RoomService {
@@ -19,4 +21,6 @@ public interface RoomService {
     Iterable<Room> getAll();
 
     List<FromToSlot> getOccupiedSlots(String roomName) throws EntityAlreadyExistsException;
+
+    List<Room> getFreeRooms(FromToSlot fromToSlot);
 }

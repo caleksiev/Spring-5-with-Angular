@@ -92,4 +92,47 @@ public class RoomServiceImpl implements RoomService {
         return fromToSlots;
 
     }
+
+    @Override
+    public List<Room> getFreeRooms(FromToSlot fromToSlot) {
+        LocalDateTime from = fromToSlot.getFrom();
+        LocalDateTime to = fromToSlot.getTo();
+        Iterable<Room> rooms = roomRepository.findAll();
+        List<Room> freeRooms = new ArrayList<>();
+        boolean isRoomFree = false;
+
+        for (Room room : rooms) {
+            List<TeamEvent> teamEventByRoom = teamEventsRepository.getAllByRoom(room);
+            List<CompanyEvent> companyEventByRoom = companyEventRepository.getAllByRoom(room);
+
+            for (TeamEvent teamEvent : teamEventByRoom) {
+                LocalDateTime fromDate = teamEvent.getFromDate();
+                LocalDateTime toDate = teamEvent.getToDate();
+
+                if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+                    isRoomFree = false;
+                    break;
+                } else {
+                    isRoomFree = true;
+                }
+            }
+
+            for (CompanyEvent companyEvent : companyEventByRoom) {
+                LocalDateTime fromDate = companyEvent.getFromDate();
+                LocalDateTime toDate = companyEvent.getToDate();
+
+                if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+                    isRoomFree = false;
+                    break;
+                } else {
+                    isRoomFree = true;
+                }
+            }
+
+            if (isRoomFree) {
+                freeRooms.add(room);
+            }
+        }
+        return freeRooms;
+    }
 }
