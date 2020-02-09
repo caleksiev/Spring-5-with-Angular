@@ -1,0 +1,16 @@
+<h2 *ngIf="response">{{response}}</h2>
+<ul *ngFor="let note of notes | paginate: { itemsPerPage: limit, currentPage: page }">
+
+  <app-note [note]="note"
+            [isManagerLogged]="isManagerLogged"
+            [notesPurpose]="notesPurpose"
+            [username]="currentUserName"
+            (noteDelete)="deleteTeamNote($event)"
+            (noteEdit)="editTeamNote($event)">
+  </app-note>
+</ul>
+<div>
+  <pagination-controls (pageChange)="page = $event"></pagination-controls>
+</div>
+
+

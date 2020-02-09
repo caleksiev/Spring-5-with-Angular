@@ -1,0 +1,34 @@
+<ul>
+  <li id="firstName">FirstName: <strong>{{user.firstName}}</strong></li>
+  <li id="lastName">LastName: <strong>{{user.lastName }}</strong></li>
+  <li id="role">Role: <strong>{{user.role}}</strong></li>
+
+</ul>
+
+<button id="editButton" (click)="showEditForm()">Edit</button>
+<button *ngIf="isAdmin" id="roleButton" (click)="showChangeRoleForm()">ChangeRole</button>
+
+
+<form *ngIf="showEdit" (ngSubmit)="editNote()">
+  <div>
+    <label>FirstName:</label>
+    <input type="text" name="firstName" placeholder="FirstName" [(ngModel)]="user.firstName">
+  </div>
+
+  <div>
+    <label>LastName:</label>
+    <input type="text" name="lastName" placeholder="LastName" [(ngModel)]="user.lastName">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit changes</button>
+</form>
+
+  <form *ngIf="showRole" novalidate [formGroup]="userForm" (ngSubmit)="changeRole()">
+
+    <label>Role:</label>
+    <select name="role" formControlName="role">
+      <option *ngFor="let role of roles " value="{{role}}"> {{role}} </option>
+    </select>
+    <button type="submit">Change role</button>
+  </form>
+

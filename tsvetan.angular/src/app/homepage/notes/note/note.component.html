@@ -1,0 +1,32 @@
+<li id="noteTitle">Title note: <strong>{{note.title}}</strong></li>
+<button id="showButton" (click)="showHideNotesDetails()"> Show details</button>
+
+<ol *ngIf="note.visibleForDetails">
+  <li id="noteDescription">Description: <strong>{{note.description}}</strong></li>
+  <li id="noteCreated">CreatedAt: <strong>{{note.createdAt | date}}</strong></li>
+  <li id="noteDeadline">Deadline: <strong>{{note.deadline | date}}</strong></li>
+  <li id="noteCreator">Creator(username): <strong>{{note.user.username}}</strong></li>
+</ol>
+
+<button id="removeButton" *ngIf="notesPurpose==='team' && isMyNote()" (click)="deleteNote()">Remove</button>
+<button *ngIf="notesPurpose==='team' && isMyNote()" (click)="showHideEditMenu()"> Edit</button>
+
+<form *ngIf="note.visibleForEdit" (ngSubmit)="editNote()">
+  <div>
+    <label>Title:</label>
+    <input type="text" name="title" placeholder="Title" [(ngModel)]="note.title">
+  </div>
+
+  <div>
+    <label>Description:</label>
+    <input type="text" name="description" placeholder="Description" [(ngModel)]="note.description">
+  </div>
+
+  <div>
+    <label>Deadline:</label>
+    <input placeholder="Date" type="date" name="deadline" [(ngModel)]="note.deadline">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit changes</button>
+
+</form>

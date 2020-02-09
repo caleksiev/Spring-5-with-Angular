@@ -1,0 +1,59 @@
+h2 {
+  font-size: 30px;
+  font-family: Arial, serif;
+  text-align: center;
+  padding-top: 35px;
+}
+
+#outer, #insider, .btn-group{
+  position: absolute;
+}
+
+#insider, button{
+  border-radius: 4px;
+}
+
+.btn-group, #insider{
+  left: 50%;
+  margin-right: -50%;
+}
+
+.btn-group{
+  top: 35%;
+  transform: translate(-50%, -60%);
+}
+
+#insider {
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  width: 30%;
+  height: 90%;
+}
+
+.btn-group button {
+  margin: 5px;
+  background-color: blue;
+  display: inline-block;
+  border: none;
+  color: white;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 15px;
+  width: 150px;
+}
+
+.btn-group button:hover {
+  background-color: dodgerblue;
+}
+
+#outer{
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: #0d47a1;
+}
+
+
+

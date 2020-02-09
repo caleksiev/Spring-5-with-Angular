@@ -1,0 +1,64 @@
+form, button{
+  position: absolute;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%)
+}
+
+
+form{
+  top: 60%;
+}
+
+button{
+  font-weight: 500;
+  top: 120px;
+  margin-top: 30px;
+  background-color: white;
+  display: block;
+  border: 1px solid blue;
+  color: blue;
+  padding: 15px 30px;
+  text-align: center;
+  font-size: 15px;
+  width: 150px;
+}
+
+button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+button span:after {
+  content: '\00bb';
+  opacity: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: 0.5s;
+}
+
+button:hover span {
+  padding-right: 25px;
+}
+
+button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+input {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  box-sizing: border-box;
+  border: 2px solid blue;
+  border-radius: 4px;
+}
+
+p{
+  padding-top: 50px;
+  font-size: 20px;
+  padding-left: 20px;
+}

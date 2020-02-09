@@ -1,0 +1,33 @@
+<li id="name">Team name: <strong>{{team.name }}</strong></li>
+
+<li id="manager">Manager name:
+  <strong>{{team.manager ? team.manager.user.username : "Team does't have a manager" }}</strong>
+  <button *ngIf="isAdmin && !team.manager" (click)="showManagerFrom()">Add Manager</button>
+  <button *ngIf="isAdmin && team.manager" (click)="removeManager()">Remove Manager</button>
+  <form *ngIf="showAddManagerFrom && !team.manager" novalidate [formGroup]="addManagerForm" (ngSubmit)="addManager()">
+
+    <label>Free managers:</label>
+    <select *ngIf="managers.length!=0" name="name" formControlName="name">
+      <option *ngFor="let manager of managers " value="{{manager}}"> {{manager}} </option>
+    </select>
+    <p *ngIf="managers.length==0">There are no free managers.</p>
+    <button *ngIf="managers.length!=0" type="submit">Add manager</button>
+  </form>
+</li>
+
+<ol *ngFor="let dev of devsInCurrentTeam ">
+  <li id="dev">Dev:<strong>{{dev.user.username }}</strong></li>
+  <button *ngIf="isManager" (click)="removeDev(dev)"type="submit">Delete dev</button>
+</ol>
+<button *ngIf="isManager" (click)="showDevFrom()">Add dev</button>
+
+<form *ngIf="showAddMDevFrom" novalidate [formGroup]="addDevForm" (ngSubmit)="addDev()">
+
+  <label>Free devs:</label>
+  <select *ngIf="devsWithouTeam.length!=0" name="name" formControlName="name">
+    <option *ngFor="let dev of devsWithouTeam " value="{{dev.user.username}}"> {{dev.user.username}} </option>
+  </select>
+  <p *ngIf="devsWithouTeam.length==0">There are no free devs.</p>
+  <button *ngIf="devsWithouTeam.length!=0" type="submit">Add dev</button>
+</form>
+

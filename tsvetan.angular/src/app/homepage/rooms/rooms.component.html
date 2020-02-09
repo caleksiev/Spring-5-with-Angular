@@ -1,0 +1,34 @@
+<h2>All rooms in the system:</h2>
+<p *ngIf="message">{{message}}</p>
+<ul *ngFor="let room of rooms">
+
+  <app-room [room]="room"
+            (roomEdit)="editRoom($event)">
+
+  </app-room>
+</ul>
+
+<button id="addButton" (click)="showAddForm()">Add room</button>
+
+<form  *ngIf="showAdd" novalidate [formGroup]="addRoomForm" (ngSubmit)="createRoom()">
+
+  <div id="noteTitle">
+    <label>
+      Name:
+    </label>
+    <input type="text" name="name" placeholder="name" formControlName="roomName">
+  </div>
+
+  <div id="noteDescription">
+    <label>
+      Seat:
+    </label>
+    <input type="number" name="seat" placeholder="seat" formControlName="seatCount">
+  </div>
+
+
+  <button type="submit" class="btn btn-default">Create</button>
+</form>
+
+
+

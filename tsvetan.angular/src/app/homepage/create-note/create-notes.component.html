@@ -1,0 +1,35 @@
+<form novalidate [formGroup]="createNoteForm" (ngSubmit)="create()">
+
+  <div id="noteTitle">
+    <label>
+      Title:
+    </label>
+    <input type="text" name="title" placeholder="Title" formControlName="title">
+  </div>
+
+  <div id="noteDescription">
+    <label>
+      Description:
+    </label>
+    <input type="text" name="description" placeholder="Description" formControlName="description">
+  </div>
+
+  <div id="noteDeadline">
+    <label>
+      Deadline:
+    </label>
+    <input type="date" name="deadline" placeholder="Deadline" formControlName="deadline">
+  </div>
+
+  <div id="noteVisibility">
+    <label>
+      Visibility:
+    </label>
+    <input id="company" type="radio" name="visibility" value="company" formControlName="visibility"> Company note
+    <input id="team" type="radio" name="visibility" value="team" formControlName="visibility"> Team note
+  </div>
+
+  <button type="submit" class="btn btn-default">Create</button>
+
+  <p *ngIf="responseFromCreateNote" [style.color]="color">{{responseFromCreateNote}}</p>
+</form>

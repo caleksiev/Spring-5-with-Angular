@@ -1,0 +1,23 @@
+<ul>
+  <li id="name">Name: <strong>{{room.roomName}}</strong></li>
+  <li id="seat">Seat: <strong>{{room.seatCount }}</strong></li>
+
+</ul>
+
+<button id="editButton" (click)="showEditForm()">Edit</button>
+
+<form *ngIf="showEdit" (ngSubmit)="editRoom()">
+  <div>
+    <label>Name:</label>
+    <input type="text" name="name" placeholder="name" [(ngModel)]="room.roomName">
+  </div>
+
+  <div>
+    <label>Seat:</label>
+    <input type="number" name="seat" placeholder="seat" [(ngModel)]="room.seatCount">
+  </div>
+
+  <button type="submit" class="btn btn-default">Submit changes</button>
+</form>
+
+

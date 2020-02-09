@@ -1,0 +1,7 @@
+<h2>All users in the system:</h2>
+<p *ngIf="message">{{message}}</p>
+<ul *ngFor="let user of users">
+  <app-single-user [user]="user"  [isAdmin]="isAdmin" (userEdit)="updateUser($event)" (usersChangeRole)="changeRole($event)"></app-single-user>
+</ul>
+
+

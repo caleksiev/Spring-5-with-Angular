@@ -1,0 +1,12 @@
+<div id="outer">
+  <div id="insider">
+    <h2> Welcome to the office events application! </h2>
+    <div class="btn-group">
+      <button *ngIf="!auth.isLoggedIn()" routerLink="register">Register</button>
+      <button *ngIf="!auth.isLoggedIn()" routerLink="login">Login</button>
+      <button *ngIf="auth.isLoggedIn()" (click)="auth.logout()">Logout</button>
+      <button *ngIf="auth.isLoggedIn()" (click)="redirectToHomepage()">Homepage</button>
+    </div>
+    <router-outlet></router-outlet>
+  </div>
+</div>

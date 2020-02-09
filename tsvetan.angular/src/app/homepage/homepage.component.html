@@ -1,0 +1,14 @@
+<h2>Office notes homepage!</h2>
+<h3>Welcome, {{this.auth.getUsername()}}</h3>
+<button type="submit" color="primary" (click)="router.navigate(['authentication'])">Back</button>
+<p>
+  Choose you page:
+  <button routerLink="dashboard">Dashboard</button>
+  <button routerLink="company/notes">Company notes</button>
+  <button routerLink="team/notes">Team notes</button>
+  <button routerLink="create/notes">Create your own notes</button>
+  <button routerLink="user-profile">User profile</button>
+  <button *ngIf="auth.getRole()==='MANAGER'" routerLink="manager">Manager</button>
+  <button *ngIf="auth.getRole()==='ADMIN'" routerLink="room">Rooms</button>
+  <button *ngIf="auth.getRole()==='ADMIN' || auth.getRole()==='MANAGER'" routerLink="teams">Teams</button>
+  <router-outlet></router-outlet>

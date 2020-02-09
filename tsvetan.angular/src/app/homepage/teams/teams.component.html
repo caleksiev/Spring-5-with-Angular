@@ -1,0 +1,32 @@
+<h2>All teams:</h2>
+<p *ngIf="message">{{message}}</p>
+<ul *ngFor="let team of teams">
+
+  <app-team [isAdmin]="isAdmin"
+            [isManager]="isManager"
+            [managers]="managers"
+            [team]="team"
+            [devsWithouTeam]="devsWithoutTeam"
+            [devsInCurrentTeam]="filterDevInTeam(team)"
+            (addManagerEvent)="addManager($event)"
+            (addDevEvent)="addDev($event)"
+            (removeDevEvent)="removeDev($event)"
+            (removeManagerEvent)="removeManager($event)">
+  </app-team>
+</ul>
+
+<button *ngIf="isAdmin" (click)="showTeamForm()">Add Team</button>
+
+<form *ngIf="showAddTeamForm" novalidate [formGroup]="createTeamForm" (ngSubmit)="createTeam()">
+
+  <div id="noteTitle">
+    <label>
+      Team name:
+    </label>
+    <input type="text" name="name" placeholder="Team name" formControlName="name">
+  </div>
+
+  <button type="submit" class="btn btn-default">Create team</button>
+  <p *ngIf="message">{{message}}</p>
+</form>
+
