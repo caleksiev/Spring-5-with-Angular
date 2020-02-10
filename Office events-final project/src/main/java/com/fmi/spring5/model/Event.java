@@ -8,7 +8,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.TimeZone;
 
 @Getter
 @Setter
@@ -26,17 +27,19 @@ abstract public class Event {
     @Column
     private String description;
     @Column(name = "valueFrom")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime fromDate;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'",timezone = "GMT")
+    private Date fromDate;
     @Column(name = "valueTo")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime toDate;
+    @NotNull
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "GMT")
+    private Date toDate;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @NotNull
     private User organizer;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @NotNull
     private Room room;
 }

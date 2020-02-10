@@ -4,6 +4,7 @@ import com.fmi.spring5.exceptions.EntityAlreadyExistsException;
 import com.fmi.spring5.model.Room;
 import com.fmi.spring5.service.RoomServiceImpl;
 import com.fmi.spring5.utils.FromToSlot;
+import com.fmi.spring5.utils.FromToSlotRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PostAuthorize;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 
 @RestController
 @RequestMapping("/rooms")
@@ -30,8 +32,8 @@ public class RoomController {
         return ResponseEntity.ok().body(roomService.getOccupiedSlots(room));
     }
 
-    @GetMapping("/free")
-    public ResponseEntity<Iterable<Room>> getAllRooms(@RequestBody FromToSlot fromToSlot) throws EntityAlreadyExistsException {
+    @PostMapping("/free")
+    public ResponseEntity<Iterable<Room>> getAllRooms(@RequestBody FromToSlotRequest fromToSlot) throws EntityAlreadyExistsException, ParseException {
         return ResponseEntity.ok().body(roomService.getFreeRooms(fromToSlot));
     }
 

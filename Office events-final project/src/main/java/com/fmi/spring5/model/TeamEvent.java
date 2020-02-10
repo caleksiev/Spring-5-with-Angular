@@ -13,6 +13,6 @@ import javax.persistence.ManyToOne;
 @Getter
 @NoArgsConstructor
 public class TeamEvent extends Event {
-    @ManyToOne(cascade = {CascadeType.PERSIST})
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Team team;
 }

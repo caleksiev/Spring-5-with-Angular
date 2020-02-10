@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.naming.NoPermissionException;
 import javax.swing.text.html.Option;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -75,6 +76,7 @@ public class EventServiceImpl implements EventService {
         }
 
         User getCurrentUser = getPrincipal();
+        teamEvent.setOrganizer(getCurrentUser);
 
         if (getCurrentUser.getRole().equals(Role.DEV.getStringRole())) {
             Dev dev = devRepository.findByUser(getCurrentUser).get();
@@ -83,6 +85,7 @@ public class EventServiceImpl implements EventService {
                         getCurrentUser.getUsername()));
             } else {
                 teamEvent.setTeam(dev.getTeam());
+
                 return teamEventsRepository.save(teamEvent);
             }
         } else if (getCurrentUser.getRole().equals(Role.MANAGER.getStringRole())) {
@@ -234,25 +237,25 @@ public class EventServiceImpl implements EventService {
         return ((UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUser();
     }
 
-    private boolean isRoomFree(Room room, LocalDateTime from, LocalDateTime to) {
+    private boolean isRoomFree(Room room, Date from, Date to) {
         List<TeamEvent> teamEventByRoom = teamEventsRepository.getAllByRoom(room);
         List<CompanyEvent> companyEventByRoom = companyEventRepository.getAllByRoom(room);
 
 
         for (TeamEvent teamEvent : teamEventByRoom) {
-            LocalDateTime fromDate = teamEvent.getFromDate();
-            LocalDateTime toDate = teamEvent.getToDate();
+            Date fromDate = teamEvent.getFromDate();
+            Date toDate = teamEvent.getToDate();
 
-            if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+            if (fromDate.before(from) || toDate.after(to)) {
                 return false;
             }
         }
 
         for (CompanyEvent companyEvent : companyEventByRoom) {
-            LocalDateTime fromDate = companyEvent.getFromDate();
-            LocalDateTime toDate = companyEvent.getToDate();
+            Date fromDate = companyEvent.getFromDate();
+            Date toDate = companyEvent.getToDate();
 
-            if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+            if (fromDate.before(from) || toDate.after(to)) {
                 return false;
             }
         }

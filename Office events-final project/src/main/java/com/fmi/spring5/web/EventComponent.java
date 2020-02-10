@@ -41,7 +41,7 @@ public class EventComponent {
 
     @PostMapping("/{team}")
     //Team must be set for managers, becouse they have multiple teams
-    public ResponseEntity<TeamEvent> createTeamEvent(@PathVariable String team, @Valid @RequestBody TeamEvent teamEvent) throws EntityAlreadyExistsException, NoPermissionException, NoSuchEntityException {
+    public ResponseEntity<TeamEvent> createTeamEvent(@PathVariable String team,@RequestBody TeamEvent teamEvent) throws EntityAlreadyExistsException, NoPermissionException, NoSuchEntityException {
         TeamEvent addedTeamEvent = eventService.addTeamEvent(teamEvent, team);
         return ResponseEntity.created(
                 ServletUriComponentsBuilder.fromCurrentRequest().pathSegment("{id}").build(addedTeamEvent.getId()))

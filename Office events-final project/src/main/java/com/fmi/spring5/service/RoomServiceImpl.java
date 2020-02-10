@@ -8,14 +8,15 @@ import com.fmi.spring5.repository.CompanyEventRepository;
 import com.fmi.spring5.repository.RoomRepository;
 import com.fmi.spring5.repository.TeamEventsRepository;
 import com.fmi.spring5.utils.FromToSlot;
+import com.fmi.spring5.utils.FromToSlotRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -96,22 +97,26 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> getFreeRooms(FromToSlot fromToSlot) {
-        LocalDateTime from = fromToSlot.getFrom();
-        LocalDateTime to = fromToSlot.getTo();
+    public List<Room> getFreeRooms(FromToSlotRequest fromToSlot) throws ParseException {
+
+
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        dateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+        Date from = dateFormat.parse(fromToSlot.getFromDate());
+        Date to = dateFormat.parse(fromToSlot.getToDate());
         Iterable<Room> rooms = roomRepository.findAll();
         List<Room> freeRooms = new ArrayList<>();
-        boolean isRoomFree = false;
+        boolean isRoomFree = true;
 
         for (Room room : rooms) {
             List<TeamEvent> teamEventByRoom = teamEventsRepository.getAllByRoom(room);
             List<CompanyEvent> companyEventByRoom = companyEventRepository.getAllByRoom(room);
 
             for (TeamEvent teamEvent : teamEventByRoom) {
-                LocalDateTime fromDate = teamEvent.getFromDate();
-                LocalDateTime toDate = teamEvent.getToDate();
+                Date fromDate = teamEvent.getFromDate();
+                Date toDate = teamEvent.getToDate();
 
-                if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+                if (fromDate.before(from) || toDate.after(to)) {
                     isRoomFree = false;
                     break;
                 } else {
@@ -120,10 +125,10 @@ public class RoomServiceImpl implements RoomService {
             }
 
             for (CompanyEvent companyEvent : companyEventByRoom) {
-                LocalDateTime fromDate = companyEvent.getFromDate();
-                LocalDateTime toDate = companyEvent.getToDate();
+                Date fromDate = companyEvent.getFromDate();
+                Date toDate = companyEvent.getToDate();
 
-                if (fromDate.isBefore(from) || toDate.isAfter(to)) {
+                if (fromDate.before(from) || toDate.after(to)) {
                     isRoomFree = false;
                     break;
                 } else {
